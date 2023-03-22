@@ -1,0 +1,351 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
+class loginpage extends JFrame implements ActionListener
+{
+    JFrame f1=new JFrame();
+    JLabel l1,l2,l3,l4;
+    JTextField tf1,tf2,tf3;
+    JButton b1;
+    JRadioButton rb1,rb2,rb3,rb4;
+    ButtonGroup bg=new ButtonGroup();
+    
+    loginpage()
+    {
+        JLabel l1=new JLabel("Online Examination Portal");
+        l1.setBounds(130,40,400,30);
+        l1.setFont(new Font("Times new roman",Font.BOLD,24));
+
+        l2=new JLabel("Username:");
+        l2.setBounds(150,120,100,20);
+
+        tf1=new JTextField();
+        tf1.setBounds(220,120,100,20);
+
+        l3=new JLabel("Password:");
+        l3.setBounds(150,160,100,20);
+        
+        tf2=new JPasswordField();
+        tf2.setBounds(220,160,100,20);
+
+        b1= new JButton("Login");
+        b1.setBounds(190,210,100,20);
+        b1.addActionListener(this);
+
+        bg.add(rb1);
+        bg.add(rb2);
+        bg.add(rb3);
+        bg.add(rb4);
+
+
+        add(l1);
+        add(l2);
+        add(l3);
+        add(tf1);
+        add(tf2);
+        add(b1);
+
+
+        setSize(600,400);
+        setLayout(null);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource()==b1)
+        {
+            if(!((tf1.getText()).equals("")) && !((tf2.getText()).equals("")))
+            {
+                JOptionPane.showMessageDialog(f1,"Login Successful");
+                new onlineexam();
+
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(f1,"Login unsuccessful");
+            }
+            
+            
+        }
+    }
+
+}
+class onlineexam extends JFrame
+{
+    JFrame f2=new JFrame();
+    JLabel lb1=new JLabel();
+    JLabel lb2=new JLabel();
+
+    JRadioButton rb1,rb2,rb3,rb4,rb5;
+    ButtonGroup bg=new ButtonGroup();
+    JButton b1,b2;
+    int current=0;
+    int count=0;
+    ButtonListener1 bl1=new ButtonListener1();
+    ButtonListener2 bl2=new ButtonListener2();
+    Timer timer=new Timer();
+
+    onlineexam()
+    {
+        
+        rb1=new JRadioButton();
+        rb2=new JRadioButton();
+        rb3=new JRadioButton();
+        rb4=new JRadioButton();
+        rb5=new JRadioButton();
+
+        bg.add(rb1);
+        bg.add(rb2);
+        bg.add(rb3);
+        bg.add(rb4);
+        bg.add(rb5);
+
+        b1=new JButton("Next");
+        b2=new JButton("Submit");
+        
+        set();
+        
+        lb1.setBounds(30,40,400,30);
+        lb2.setBounds(20,20,100,15);
+
+        rb1.setBounds(50,80,200,20);
+        rb2.setBounds(50,110,200,20);
+        rb3.setBounds(50,140,200,20);
+        rb4.setBounds(50,170,200,20);
+        b1.setBounds(75,240,100,30);
+        b2.setBounds(220,240,100,30);
+        b1.addActionListener(bl1);
+        b2.setEnabled(false);
+        b2.addActionListener(bl2);
+
+        f2.add(rb1);
+        f2.add(rb2);
+        f2.add(rb3);
+        f2.add(rb4);
+        f2.add(rb5);
+        f2.add(lb1);
+        f2.add(lb2);
+        f2.add(b1);
+        f2.add(b2);
+        f2.setSize(600,400);
+        f2.setLayout(null);
+        f2.setVisible(true);
+
+        f2.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        timer.scheduleAtFixedRate(new TimerTask(){
+            int i=600;
+            public void run()
+            {
+                lb2.setText("Time left: "+i);
+                i--;
+                if(i<0)
+                {
+                    timer.cancel();
+                    lb2.setText("Time Out");
+                }
+            }
+        },0,1000);
+
+
+    }
+    class ButtonListener1 implements ActionListener
+    {
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource()==b1)
+        {
+            if(check())
+            {
+                count=count+1;
+            }
+            current++;
+            set();
+            if(current==9)
+            {
+                b1.setEnabled(false);
+                b2.setEnabled(true);
+            }
+
+        }
+    }
+}
+    class ButtonListener2 implements ActionListener
+    {
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource()==b2)
+        {
+            JOptionPane.showMessageDialog(f2,"Your Score is : "+ count);
+            System.exit(0);
+        }
+    }
+}
+
+
+
+    void set()
+    {
+        rb5.setSelected(true);
+        if(current==0)
+        {
+            lb1.setText("Q.1) Java was first released in the year ?");
+            rb1.setText("1990");
+            rb2.setText("2000");
+            rb3.setText("1995");
+            rb4.setText("1960");
+        }
+
+        if(current==1)
+        {
+            lb1.setText("Q.2) Java was first called as ?");
+            rb1.setText("Oak");
+            rb2.setText("Apple");
+            rb3.setText("Tea");
+            rb4.setText("Oaks");
+        }
+
+        if(current==2)
+        {
+            lb1.setText("Q.3) Java is ?");
+            rb1.setText("Object Oriented");
+            rb2.setText("Procedure Oriented");
+            rb3.setText("Both");
+            rb4.setText("None");
+        }
+
+        if(current==3)
+        {
+            lb1.setText("Q.4) Java was invented by ?");
+            rb1.setText("Charles Babbage");
+            rb2.setText("James Gosling");
+            rb3.setText("M.P.Java");
+            rb4.setText("Pascal");
+        }
+
+        if(current==4)
+        {
+            lb1.setText("Q.5) Number of primitive data types in java ?");
+            rb1.setText("6");
+            rb2.setText("7");
+            rb3.setText("10");
+            rb4.setText("8");
+        }
+
+        if(current==5)
+        {
+            lb1.setText("Q.6) Which of the following is a keyword in java ?");
+            rb1.setText("oop");
+            rb2.setText("pop");
+            rb3.setText("is");
+            rb4.setText("final");
+        }
+
+        if(current==6)
+        {
+            lb1.setText("Q.7) Which of the following is not a keyword in java ?");
+            rb1.setText("final");
+            rb2.setText("super");
+            rb3.setText("this");
+            rb4.setText("oop");
+        }
+
+        if(current==7)
+        {
+            lb1.setText("Q.8) Which of the following are features of oop ?");
+            rb1.setText("Polymorphism");
+            rb2.setText("Inheritance");
+            rb3.setText("Abstraction");
+            rb4.setText("All the above");
+        }
+
+        if(current==8)
+        {
+            lb1.setText("Q.9) Which of the following are features of Java ?");
+            rb1.setText("Simple");
+            rb2.setText("Robust");
+            rb3.setText("Portable");
+            rb4.setText("All the above");
+        }
+
+        if(current==9)
+        {
+            lb1.setText("Q.10) Class is a Collection of ?");
+            rb1.setText("Class Members");
+            rb2.setText("Member Functions");
+            rb3.setText("Both");
+            rb4.setText("None");
+        }
+
+
+
+
+
+
+
+    }
+
+    boolean check()
+    {
+        if(current==0)
+        {
+            return(rb3.isSelected());
+        }
+        if(current==1)
+        {
+            return(rb1.isSelected());
+        }
+        if(current==2)
+        {
+            return(rb1.isSelected());
+        }
+        if(current==3)
+        {
+            return(rb2.isSelected());
+        }
+        if(current==4)
+        {
+            return(rb2.isSelected());
+        }
+        if(current==5)
+        {
+            return (rb4.isSelected());
+        }
+        if(current==6)
+        {
+            return (rb4.isSelected());
+        }
+        if(current==7)
+        {
+            return (rb4.isSelected());
+        }
+        if(current==8)
+        {
+            return (rb4.isSelected());
+        }
+        if(current==9)
+        {
+            return (rb3.isSelected());
+        }
+
+
+
+        return false;
+    }
+}
+
+
+
+public class exam
+{
+    public static void main(String[] args)
+    {
+        loginpage page=new loginpage();
+    }
+}
